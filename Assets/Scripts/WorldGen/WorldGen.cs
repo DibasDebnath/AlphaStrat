@@ -114,6 +114,11 @@ public class WorldGen : MonoBehaviour
     {
         return groundTileList[UnityEngine.Random.Range(0, groundTileList.Count)];
     }
+
+    public GameObject getGridGroundObject(int i, int j)
+    {
+        return gridGroundReference[i, j];
+    }
     //private void SetTotalTileCountAfterColliderDeactivate()
     //{
     //    int tmpcount = 0;

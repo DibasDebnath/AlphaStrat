@@ -10,6 +10,7 @@ public class RefHolder : MonoBehaviour
     
     public PlayerController playerController;
     public InputController inputController;
+    public WorldGen worldGen;
 
     private void Awake()
     {
