@@ -6,6 +6,10 @@ public class PlayerController : MonoBehaviour
 {
 
     public Camera cam;
+
+
+    public Material m1;
+    public Material m2;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +41,21 @@ public class PlayerController : MonoBehaviour
                 GroundScript gs = hit.transform.GetComponent<GroundScript>();
                 Debug.Log("Ground Hit index "+gs.xGridIndex+" "+gs.yGridIndex);
 
+                // Do something with the object that was hit by the raycast.
+
+
+                List<GameObject> path =  RefHolder.instance.pathFinding.GetPathObjects(RefHolder.instance.worldGen.getGridGroundObject(0, 0), hit.transform.gameObject);
+
+                for(int i = 0; i< path.Count; i++)
+                {
+                    path[i].transform.GetComponent<Renderer>().material = m2;
+                }
+
             }
 
            
 
-            // Do something with the object that was hit by the raycast.
+            
         }
     }
 }

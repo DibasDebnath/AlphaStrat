@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class PathNode
 {
-    private GroundScript groundScript;
+    
 
-    public int i;
-    public int j;
-
-    public int gCost;
+    public int x;
+    public int y;
+    public bool isWalkable;
+    public int gCost = 0;
     public int hCost;
-    public int fCost;
+    public int fCost = 0;
 
-    public PathNode cameFromNode;
+    public PathNode cameFromNode = null;
 
-    public PathNode(GroundScript t_groundScript)
+    public PathNode(int x, int y, bool isWalkable)
     {
-        this.groundScript = t_groundScript;
-        this.i = groundScript.xGridIndex;
-        this.j = groundScript.yGridIndex;
+        this.x = x;
+        this.y = y;
+        this.isWalkable = isWalkable;
     }
 
 
@@ -27,10 +27,7 @@ public class PathNode
     {
         fCost = gCost + hCost;
     }
-    public override string ToString()
-    {
-        return i+","+j;
-    }
+    
 
 
 
