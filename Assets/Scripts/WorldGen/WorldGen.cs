@@ -23,9 +23,13 @@ public class WorldGen : MonoBehaviour
 
     private void Start()
     {
-        // New Gen
-        GridGenaration();
-        setGridGroundList();
+        // New Gen Static
+        //GridSetupFirst();
+        GridSetupAfter();
+
+        // New Gen Dynamic
+        //GridGenaration();
+        //setGridGroundList();
 
         //Old Gen Use
         //SetGridGroundReferenceFromList();
@@ -34,7 +38,8 @@ public class WorldGen : MonoBehaviour
     #endregion
 
     #region GridComponent
-
+    [Header("For Set Up")]
+    public Transform gridHolderForSet;
 
     [Header("Gounds")]
     public Transform gridHolder;
@@ -123,7 +128,7 @@ public class WorldGen : MonoBehaviour
                 //}
 
                 //Setting Grid Data Array and Adding in
-                tmpGround.GetComponent<GroundScript>().SetGridData(i, j, tmpPos);
+                tmpGround.GetComponent<GroundScript>().SetGridData(i, j);
 
 
 
@@ -186,10 +191,76 @@ public class WorldGen : MonoBehaviour
 
 
 
+
+
+
     #endregion
 
 
+    #region New SetUp
 
+    public void GridSetupFirst()
+    {
+        gridGroundReference = new GameObject[xTileCount, zTileCount];
+
+        GameObject XAxis = gridHolderForSet.transform.GetChild(0).gameObject;
+
+        GameObject tmpXAxis = XAxis;
+
+        Vector3 tmpPos = XAxis.transform.position;
+        GameObject tmpGround = XAxis;
+
+        for (int j = 0; j < zTileCount; j++)
+        {
+            gridGroundReference[0, j] = tmpGround = Instantiate(GetRandomGroundTile(), tmpPos, Quaternion.identity, tmpXAxis.transform);
+            //Setting Grid Data Array and Adding in
+            tmpGround.GetComponent<GroundScript>().SetGridData(0, j);
+
+            tmpGround.SetActive(true);
+            totalTileCount++;
+            tmpPos.x += xRightIncreaseValue;
+            tmpPos.z += zRightIncreaseValue;
+        }
+
+
+        for (int i = 1; i < xTileCount; i++)
+        {
+            
+            tmpPos.x = XAxis.transform.position.x + xDownIncreaseValue * (i );
+            tmpPos.z = XAxis.transform.position.z - zDownIncreaseValue * (i );
+
+            tmpXAxis = Instantiate(XAxis, tmpPos, Quaternion.identity, gridHolderForSet.transform);
+
+            
+
+            for (int j = 0; j < zTileCount; j++)
+            {
+                tmpXAxis.transform.GetChild(j).GetComponent<GroundScript>().SetGridData(i, j);
+            }
+            
+        }
+         
+    }
+
+
+
+
+    public void GridSetupAfter()
+    {
+        gridGroundReference = new GameObject[xTileCount, zTileCount];
+
+        GameObject XAxis = gridHolderForSet.transform.GetChild(0).gameObject;
+
+
+        for (int i = 0; i < xTileCount; i++)
+        {
+            for (int j = 0; j < zTileCount; j++)
+            {
+                gridGroundReference[i,j] = gridHolderForSet.transform.GetChild(i).GetChild(j).gameObject;
+            }
+        }
+    }
+    #endregion
 
 
 }
