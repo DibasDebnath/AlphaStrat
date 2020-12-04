@@ -23,7 +23,12 @@ public class WorldGen : MonoBehaviour
 
     private void Start()
     {
+        // New Gen
         GridGenaration();
+        setGridGroundList();
+
+        //Old Gen Use
+        //SetGridGroundReferenceFromList();
     }
 
     #endregion
@@ -53,8 +58,34 @@ public class WorldGen : MonoBehaviour
 
     [Header("Grid Variables")]
 
-    public GameObject[,] gridGroundReference;
+    public static GameObject[,] gridGroundReference;
+    public List<GameObject> gridGroundReferenceList = new List<GameObject>();
+    private void setGridGroundList()
+    {
+        for (int i = 0; i < xTileCount; i++)
+        {
+            for (int j = 0; j < zTileCount; j++)
+            {
+                gridGroundReferenceList.Add(getGridGroundObject(i, j));
+            }
+        }
+    }
+    private void SetGridGroundReferenceFromList() 
+    {
+        gridGroundReference = new GameObject[xTileCount, zTileCount];
+        for (int i = 0;i<gridGroundReferenceList.Count;i++)
+        {
+            gridGroundReference[gridGroundReferenceList[i].transform.GetComponent<GroundScript>().xGridIndex, gridGroundReferenceList[i].transform.GetComponent<GroundScript>().yGridIndex] = gridGroundReferenceList[i];
+        }
+        
+    }
 
+
+
+    [Header("Test Variables")]
+
+    public Material m1;
+    public Material m2;
 
 
 
@@ -93,6 +124,19 @@ public class WorldGen : MonoBehaviour
 
                 //Setting Grid Data Array and Adding in
                 tmpGround.GetComponent<GroundScript>().SetGridData(i, j, tmpPos);
+
+
+
+                //Test Codes for mat change
+                if(Random.Range(0,15) == 10)
+                {
+                    tmpGround.GetComponent<GroundScript>().isEmpty = false; ;
+                    tmpGround.transform.GetComponent<Renderer>().material = m2;
+                }
+
+                
+
+
                 tmpGround.SetActive(true);
 
                 //tmpGround.GetComponent<SpriteRenderer>().sortingOrder = tmpOrderInLayer;
@@ -143,6 +187,9 @@ public class WorldGen : MonoBehaviour
 
 
     #endregion
+
+
+
 
 
 }

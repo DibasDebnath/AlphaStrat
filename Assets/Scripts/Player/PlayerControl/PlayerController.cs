@@ -42,14 +42,25 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Ground Hit index "+gs.xGridIndex+" "+gs.yGridIndex);
 
                 // Do something with the object that was hit by the raycast.
+                int x = hit.transform.gameObject.transform.GetComponent<GroundScript>().xGridIndex;
+                int y = hit.transform.gameObject.transform.GetComponent<GroundScript>().yGridIndex;
 
+                int xCount = RefHolder.instance.worldGen.xTileCount;
+                int zCount = RefHolder.instance.worldGen.zTileCount;
 
-                List<GameObject> path =  RefHolder.instance.pathFinding.GetPathObjects(RefHolder.instance.worldGen.getGridGroundObject(0, 0), hit.transform.gameObject);
-
-                for(int i = 0; i< path.Count; i++)
+                List<GameObject> path =  RefHolder.instance.pathFinding.GetPathObjects(0,0,x,y,xCount,zCount);
+                if(path != null)
                 {
-                    path[i].transform.GetComponent<Renderer>().material = m2;
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m1;
+                    }
                 }
+                else
+                {
+                    Debug.LogError("Invalid Path");
+                }
+                
 
             }
 

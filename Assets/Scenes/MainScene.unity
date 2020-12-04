@@ -406,6 +406,8 @@ MonoBehaviour:
   zRightIncreaseValue: 0
   xDownIncreaseValue: 0
   zDownIncreaseValue: 1
+  m1: {fileID: 2100000, guid: 5ae5a97351104dc4f97168fc8d37ccf7, type: 2}
+  m2: {fileID: 2100000, guid: 5c768548aec1e8e4ea5e3888569bfaca, type: 2}
 --- !u!4 &1774177797
 Transform:
   m_ObjectHideFlags: 0

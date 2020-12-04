@@ -10,17 +10,26 @@ public class PathFinding : MonoBehaviour
 
     private List<PathNode> allPathNodes = new List<PathNode>();
 
+    private int xCount;
+    private int yCount;
 
-
-    public List<GameObject> GetPathObjects(GameObject startGround , GameObject endGround)
+    public List<GameObject> GetPathObjects(int startX, int startY, int endX, int endY, int xCount, int yCount)
     {
-        List<PathNode> pathNodes = FindPath(startGround.GetComponent<GroundScript>().xGridIndex, startGround.GetComponent<GroundScript>().yGridIndex, endGround.GetComponent<GroundScript>().xGridIndex, endGround.GetComponent<GroundScript>().yGridIndex);
 
+        this.xCount = xCount;
+        this.yCount = yCount;
+        List<PathNode> pathNodes = FindPath(startX, startY, endX, endY, xCount, yCount);
+
+        if(pathNodes == null)
+        {
+            Debug.LogError("Invalid Path");
+            return null;
+        }
         List<GameObject> pathObjects = new List<GameObject>();
 
         for(int i = 0; i < pathNodes.Count; i++)
         {
-            pathObjects.Add(RefHolder.instance.worldGen.getGridGroundObject(pathNodes[i].x, pathNodes[i].x));
+            pathObjects.Add(RefHolder.instance.worldGen.getGridGroundObject(pathNodes[i].x, pathNodes[i].y));
         }
 
         return pathObjects;
@@ -31,12 +40,12 @@ public class PathFinding : MonoBehaviour
 
 
     
-    private List<PathNode> FindPath(int startX , int startY , int endX,int endY)
+    private List<PathNode> FindPath(int startX , int startY , int endX,int endY , int xCount, int yCount)
     {
         allPathNodes.Clear();
-        for (int i = 0; i < RefHolder.instance.worldGen.xTileCount; i++)
+        for (int i = 0; i < xCount; i++)
         {
-            for (int j = 0; j < RefHolder.instance.worldGen.zTileCount; j++)
+            for (int j = 0; j < yCount; j++)
             {
                 allPathNodes.Add(new PathNode(i, j, RefHolder.instance.worldGen.getGridGroundObject(i,j).GetComponent<GroundScript>().isEmpty));
             }
@@ -55,9 +64,9 @@ public class PathFinding : MonoBehaviour
 
         openList.Add(startNode);
 
-        for (int x = 0; x < RefHolder.instance.worldGen.xTileCount; x++)
+        for (int x = 0; x < xCount; x++)
         {
-            for (int y = 0; y < RefHolder.instance.worldGen.zTileCount; y++)
+            for (int y = 0; y < yCount; y++)
             {
                 PathNode pathNode = GetNode(x, y);
                 pathNode.gCost = 99999999;
@@ -151,23 +160,52 @@ public class PathFinding : MonoBehaviour
             // Left
             neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y));
             // Left Down
-            if (currentNode.y - 1 >= 0) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y - 1));
+            if (currentNode.y - 1 >= 0)
+            {
+                //Left and Down tile befor diagonal tile add
+                if(GetNode(currentNode.x - 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y - 1).isWalkable)
+                {
+                    neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y - 1));
+                }
+            }
+
             // Left Up
-            if (currentNode.y + 1 < RefHolder.instance.worldGen.zTileCount) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y + 1));
+
+            if (currentNode.y + 1 < yCount)
+            {
+                if (GetNode(currentNode.x - 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y + 1).isWalkable)
+                {
+                    neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y + 1));
+                }
+            }
+            
         }
-        if (currentNode.x + 1 < RefHolder.instance.worldGen.xTileCount)
+        if (currentNode.x + 1 < xCount)
         {
             // Right
             neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y));
             // Right Down
-            if (currentNode.y - 1 >= 0) neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y - 1));
+            if (currentNode.y - 1 >= 0)
+            {
+                if (GetNode(currentNode.x + 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y - 1).isWalkable)
+                {
+                    neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y - 1));
+                }
+            }
             // Right Up
-            if (currentNode.y + 1 < RefHolder.instance.worldGen.zTileCount) neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y + 1));
+            if (currentNode.y + 1 < yCount)
+            {
+                if (GetNode(currentNode.x + 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y + 1).isWalkable)
+                {
+                    neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y + 1));
+                }
+            }
+            
         }
         // Down
         if (currentNode.y - 1 >= 0) neighbourList.Add(GetNode(currentNode.x, currentNode.y - 1));
         // Up
-        if (currentNode.y + 1 < RefHolder.instance.worldGen.zTileCount) neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
+        if (currentNode.y + 1 < yCount) neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
 
         return neighbourList;
     }
