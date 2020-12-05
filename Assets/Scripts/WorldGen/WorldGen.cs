@@ -257,7 +257,7 @@ public class WorldGen : MonoBehaviour
             for (int j = 0; j < zTileCount; j++)
             {
                 gridGroundReference[i,j] = gridHolderForSet.transform.GetChild(i).GetChild(j).gameObject;
-                gridGroundReference[i, j].transform.GetChild(i).GetChild(j).GetComponent<GroundScript>().SetGridIndex(i, j);
+                gridGroundReference[i, j].GetComponent<GroundScript>().SetGridIndex(i, j);
             }
         }
     }

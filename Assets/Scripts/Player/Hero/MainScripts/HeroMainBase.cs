@@ -8,9 +8,9 @@ public class HeroMainBase : MonoBehaviour
     public HeroSOBase heroSO;
 
 
-    public bool isSelected;
-    public int xIndex;
-    public int yIndex;
+    
+    public int xGridIndex;
+    public int yGridIndex;
 
 
     private void Awake()
@@ -37,10 +37,10 @@ public class HeroMainBase : MonoBehaviour
 
     
 
-    public void setMapIndex(int xIndex,int yIndex)
+    public void setMapIndex(int xGridIndex,int yGridIndex)
     {
-        this.xIndex = xIndex;
-        this.yIndex = yIndex;
+        this.xGridIndex = xGridIndex;
+        this.yGridIndex = yGridIndex;
     }
     
 
