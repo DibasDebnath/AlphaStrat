@@ -13,11 +13,12 @@ public class PathFinding : MonoBehaviour
     private int xCount;
     private int yCount;
 
-    public List<GameObject> GetPathObjects(int startX, int startY, int endX, int endY, int xCount, int yCount)
+    public List<GameObject> GetPathObjects(int startX, int startY, int endX, int endY)
     {
 
-        this.xCount = xCount;
-        this.yCount = yCount;
+        this.xCount = RefHolder.instance.worldGen.xTileCount;
+        this.yCount = RefHolder.instance.worldGen.zTileCount;
+
         List<PathNode> pathNodes = FindPath(startX, startY, endX, endY, xCount, yCount);
 
         if(pathNodes == null)
@@ -35,10 +36,10 @@ public class PathFinding : MonoBehaviour
         return pathObjects;
     }
 
-    public List<GameObject> GetPathObjectsInRange(int startX, int startY , int range, int xCount, int yCount)
+    public List<GameObject> GetPathObjectsInRange(int startX, int startY , int range)
     {
-        this.xCount = xCount;
-        this.yCount = yCount;
+        this.xCount = RefHolder.instance.worldGen.xTileCount;
+        this.yCount = RefHolder.instance.worldGen.zTileCount;
 
         List<PathNode> pathNodes = GetPathsInRange(startX, startY, range, xCount, yCount);
 

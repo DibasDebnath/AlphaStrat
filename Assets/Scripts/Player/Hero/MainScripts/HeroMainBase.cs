@@ -9,6 +9,8 @@ public class HeroMainBase : MonoBehaviour
 
 
     public bool isSelected;
+    public int xIndex;
+    public int yIndex;
 
 
     private void Awake()
@@ -18,7 +20,7 @@ public class HeroMainBase : MonoBehaviour
 
     private void Start()
     {
-        heroSO.PrintFromMain();
+       
     }
 
     public void OnSelect()
@@ -33,12 +35,13 @@ public class HeroMainBase : MonoBehaviour
         heroSO.OnDeselect();
     }
 
-    public void PrintSomething()
-    {
-        Debug.LogError("From Main Class");
-    }
+    
 
-   
+    public void setMapIndex(int xIndex,int yIndex)
+    {
+        this.xIndex = xIndex;
+        this.yIndex = yIndex;
+    }
     
 
 

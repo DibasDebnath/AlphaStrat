@@ -45,10 +45,9 @@ public class PlayerController : MonoBehaviour
                 int x = hit.transform.gameObject.transform.GetComponent<GroundScript>().xGridIndex;
                 int y = hit.transform.gameObject.transform.GetComponent<GroundScript>().yGridIndex;
 
-                int xCount = RefHolder.instance.worldGen.xTileCount;
-                int zCount = RefHolder.instance.worldGen.zTileCount;
+                
 
-                List<GameObject> path =  RefHolder.instance.pathFinding.GetPathObjects(0,0,x,y,xCount,zCount);
+                List<GameObject> path =  RefHolder.instance.pathFinding.GetPathObjects(0,0,x,y);
                 if(path != null)
                 {
                     for (int i = 0; i < path.Count; i++)

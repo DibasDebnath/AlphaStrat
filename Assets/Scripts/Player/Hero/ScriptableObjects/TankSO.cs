@@ -20,9 +20,6 @@ public class TankSO : HeroSOBase
     }
 
 
-    public override void PrintStuff()
-    {
-        Debug.LogError("Works");
-    }
+   
     
 }

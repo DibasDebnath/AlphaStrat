@@ -24,13 +24,13 @@ public class HeroSOBase : ScriptableObject
 
     
 
-    private bool isSelected;
+    
 
     public HeroMainBase MainClass { get => mainClass; set => mainClass = value; }
 
     private void Awake()
     {
-        isSelected = false;
+        MainClass.isSelected = false;
         MainClass = null;
     }
 
@@ -38,9 +38,9 @@ public class HeroSOBase : ScriptableObject
 
     public void OnSelect()
     {
-        if (!isSelected)
+        if (!MainClass.isSelected)
         {
-            isSelected = true;
+            MainClass.isSelected = true;
             HighlightMovableTiles();
         }
         
@@ -48,18 +48,28 @@ public class HeroSOBase : ScriptableObject
 
     public void OnDeselect()
     {
-        isSelected = false;
+        MainClass.isSelected = false;
         DeHighlightMovableTiles();
     }
 
     public void HighlightMovableTiles()
     {
-        
+        List<GameObject> grounds = RefHolder.instance.pathFinding.GetPathObjectsInRange(MainClass.xIndex,MainClass.yIndex,range);
+
+        for(int i = 0; i < grounds.Count; i++)
+        {
+            grounds[i].transform.GetComponent<GroundScript>().GlowOneEnable();
+        }
     }
 
     public void DeHighlightMovableTiles()
     {
+        List<GameObject> grounds = RefHolder.instance.pathFinding.GetPathObjectsInRange(MainClass.xIndex, MainClass.yIndex, range);
 
+        for (int i = 0; i < grounds.Count; i++)
+        {
+            grounds[i].transform.GetComponent<GroundScript>().GlowOneDisable();
+        }
     }
 
     public void HighlightAttackableEnemy()
@@ -90,15 +100,7 @@ public class HeroSOBase : ScriptableObject
 
     }
 
-    public virtual void PrintStuff()
-    {
-        Debug.LogError("Not Works");
-    }
-
-    public void PrintFromMain()
-    {
-        MainClass.PrintSomething();
-    }
+    
     #endregion
 
 
