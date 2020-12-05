@@ -35,11 +35,30 @@ public class PathFinding : MonoBehaviour
         return pathObjects;
     }
 
-    
+    public List<GameObject> GetPathObjectsInRange(int startX, int startY , int range, int xCount, int yCount)
+    {
+        this.xCount = xCount;
+        this.yCount = yCount;
+
+        List<PathNode> pathNodes = GetPathsInRange(startX, startY, range, xCount, yCount);
+
+        if (pathNodes == null)
+        {
+            Debug.LogError("Invalid Range");
+            return null;
+        }
+
+        List<GameObject> pathObjects = new List<GameObject>();
+
+        for (int i = 0; i < pathNodes.Count; i++)
+        {
+            pathObjects.Add(RefHolder.instance.worldGen.getGridGroundObject(pathNodes[i].x, pathNodes[i].y));
+        }
+
+        return pathObjects;
+    }
 
 
-
-    
     private List<PathNode> FindPath(int startX , int startY , int endX,int endY , int xCount, int yCount)
     {
         allPathNodes.Clear();
@@ -123,6 +142,7 @@ public class PathFinding : MonoBehaviour
 
 
     }
+
     private PathNode GetNode(int x, int y)
     {
         PathNode pathNode = null;
@@ -229,4 +249,51 @@ public class PathFinding : MonoBehaviour
         int remaining = Mathf.Abs(xDistance - yDistance);
         return DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + STRAIGHT_COST * remaining;
     }
+
+
+
+    private List<PathNode> GetPathsInRange(int startX, int startY, int range, int xCount, int yCount)
+    {
+        int xRangePlus = startX + range;
+        if(xRangePlus >= xCount)
+        {
+            xRangePlus = xCount - 1;
+        }
+        int xRangeMinus = startX - range;
+        if (xRangeMinus < 0)
+        {
+            xRangeMinus = 0;
+        }
+
+        int yRangePlus = startY + range;
+        if (yRangePlus >= yCount)
+        {
+            yRangePlus = yCount - 1;
+        }
+        int yRangeMinus = startY - range;
+        if (yRangeMinus < 0)
+        {
+            yRangeMinus = 0;
+        }
+
+
+        allPathNodes.Clear();
+        for (int i = xRangeMinus; i <= xRangePlus; i++)
+        {
+            for (int j = yRangeMinus; j <= yRangePlus; j++)
+            {
+                if (RefHolder.instance.worldGen.getGridGroundObject(i, j).GetComponent<GroundScript>().isEmpty == true)
+                {
+                    allPathNodes.Add(new PathNode(i, j, true));
+                }
+                
+            }
+        }
+
+
+        return allPathNodes;
+    }
+
+
+
 }

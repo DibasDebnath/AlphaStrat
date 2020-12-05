@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void GroundTap()
+    public void Tap()
     {
         TapRayCast();
     }
@@ -62,6 +62,10 @@ public class PlayerController : MonoBehaviour
                 }
                 
 
+            }
+            else if(hit.transform.CompareTag("Hero"))
+            {
+                hit.transform.GetComponent<HeroMainBase>().OnSelect();
             }
 
            

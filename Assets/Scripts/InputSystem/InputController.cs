@@ -121,7 +121,7 @@ public class InputController : MonoBehaviour
             Debug.Log("Tapped "+screenTouchPosition.x+" "+screenTouchPosition.y);
         }
 
-        RefHolder.instance.playerController.GroundTap();
+        RefHolder.instance.playerController.Tap();
     }
 
 
