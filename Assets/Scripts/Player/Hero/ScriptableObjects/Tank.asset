@@ -19,3 +19,4 @@ MonoBehaviour:
   defence: 70
   heal: 30
   range: 5
+  speed: 5

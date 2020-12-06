@@ -19,6 +19,7 @@ public class HeroSOBase : ScriptableObject
     [Range(0f, 10f)]
     public int range;
 
+    public int speed;
 
     private HeroMainBase mainClass;
 
@@ -96,12 +97,43 @@ public class HeroSOBase : ScriptableObject
 
     }
 
-    public void MoveToSelectedTile()
+    public void MoveToSelectedTile(int xIndex , int yIndex)
     {
-
+        List<GameObject> path = RefHolder.instance.pathFinding.GetPathObjects(MainClass.xGridIndex, MainClass.yGridIndex, xIndex, yIndex);
+        if (path != null)
+        {
+            for (int i = 0; i < path.Count; i++)
+            {
+                path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m1;
+            }
+            MainClass.startMoveToCorotine(path);
+        }
+        else
+        {
+            Debug.LogError("Invalid Path");
+        }
     }
 
+    public IEnumerator MoveToTileEnumerator(List<GameObject> path)
+    {
+        float step = speed * Time.deltaTime;
+        Vector3 target;
+        for (int i = 1; i < path.Count; i++)
+        {
+            target = path[i].transform.position + new Vector3(0f,0.5f,0f);
+            
+            while (MainClass.transform.position != target)
+            {
+                MainClass.transform.position = Vector3.MoveTowards(MainClass.transform.position, target, step);
+                yield return new WaitForFixedUpdate();
+                //Debug.LogError("hola from inside " + target);
+            }
+            
+        }
 
+        
+
+    }
     #endregion
 
 

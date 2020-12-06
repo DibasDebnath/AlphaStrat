@@ -83,18 +83,7 @@ public class PlayerController : MonoBehaviour
             int y = gs.yGridIndex;
             if (selectedHero.heroSO.IsGroundHighlighted(x , y))
             {
-                List<GameObject> path = RefHolder.instance.pathFinding.GetPathObjects(0, 0, x, y);
-                if (path != null)
-                {
-                    for (int i = 0; i < path.Count; i++)
-                    {
-                        path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m1;
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Invalid Path");
-                }
+                selectedHero.heroSO.MoveToSelectedTile(x, y);
             }
             selectedHero.OnDeselect();
         }
