@@ -19,7 +19,8 @@ public class InputController : MonoBehaviour
     bool tap;
     private bool processedTap;
     bool move;
-    float moveDisplacement;
+    float moveDisplacementX;
+    float moveDisplacementY;
     Vector2 screenTouchPosition;
     Vector2 currentTouchPosition;
     Vector2 oldTouchPosition;
@@ -27,7 +28,8 @@ public class InputController : MonoBehaviour
 
     //Public Call to Variables
     public bool Move { get => move; set => move = value; }
-    public float MoveDisplacement { get => moveDisplacement; set => moveDisplacement = value; }
+    public float MoveDisplacementX { get => moveDisplacementX; set => moveDisplacementX = value; }
+    public float MoveDisplacementY { get => moveDisplacementY; set => moveDisplacementY = value; }
     public bool ProcessedTap { get => processedTap; set => processedTap = value; }
     public Vector2 ScreenTouchPosition { get => screenTouchPosition; set => screenTouchPosition = value; }
 
@@ -59,7 +61,7 @@ public class InputController : MonoBehaviour
             TakeInputs();
             if (showDebug)
             {
-                Debug.Log("Moving at the speed of "+moveDisplacement);
+                Debug.Log("Moving at the speed of "+ MoveDisplacementX + " " + MoveDisplacementY);
             }
         }
         else if (processedTap == true || move == true)
@@ -89,12 +91,14 @@ public class InputController : MonoBehaviour
 
             if (oldTouchPosition.x != currentTouchPosition.x && oldTouchPosition.x != 0 && Math.Abs(oldTouchPosition.x - currentTouchPosition.x) > moveThreshold)
             {
-                moveDisplacement = oldTouchPosition.x - currentTouchPosition.x;
+                MoveDisplacementX = oldTouchPosition.x - currentTouchPosition.x;
+                MoveDisplacementY = oldTouchPosition.y - currentTouchPosition.y;
                 move = true;
             }
             else
             {
-                moveDisplacement = 0;
+                MoveDisplacementX = 0;
+                MoveDisplacementY = 0;
                 move = false;
             }
 
@@ -107,7 +111,8 @@ public class InputController : MonoBehaviour
             currentTouchPosition.y = 0;
             oldTouchPosition.x = 0;
             oldTouchPosition.y = 0;
-            moveDisplacement = 0;
+            MoveDisplacementX = 0;
+            MoveDisplacementY = 0;
             move = false;
         }
     }
