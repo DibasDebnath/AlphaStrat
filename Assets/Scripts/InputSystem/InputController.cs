@@ -8,8 +8,8 @@ public class InputController : MonoBehaviour
 
 
     InputSystem inputActions;
-    [SerializeField]
-    private bool showDebug;
+   
+    public bool showDebug;
 
     public bool takeInputsBool;
     public float moveThreshold;
@@ -120,13 +120,16 @@ public class InputController : MonoBehaviour
 
     private void Tap()
     {
-        
-        if (showDebug)
+        if (takeInputsBool)
         {
-            Debug.Log("Tapped "+screenTouchPosition.x+" "+screenTouchPosition.y);
-        }
+            if (showDebug)
+            {
+                Debug.Log("Tapped " + screenTouchPosition.x + " " + screenTouchPosition.y);
+            }
 
-        RefHolder.instance.playerController.Tap();
+            RefHolder.instance.playerController.Tap();
+        }
+       
     }
 
 

@@ -30,7 +30,7 @@ public class PathFinding : MonoBehaviour
 
         for(int i = 0; i < pathNodes.Count; i++)
         {
-            pathObjects.Add(RefHolder.instance.worldGen.getGridGroundObject(pathNodes[i].x, pathNodes[i].y));
+            pathObjects.Add(RefHolder.instance.worldGen.GetGridGroundObject(pathNodes[i].x, pathNodes[i].y));
         }
 
         return pathObjects;
@@ -53,7 +53,7 @@ public class PathFinding : MonoBehaviour
 
         for (int i = 0; i < pathNodes.Count; i++)
         {
-            pathObjects.Add(RefHolder.instance.worldGen.getGridGroundObject(pathNodes[i].x, pathNodes[i].y));
+            pathObjects.Add(RefHolder.instance.worldGen.GetGridGroundObject(pathNodes[i].x, pathNodes[i].y));
         }
 
         return pathObjects;
@@ -67,7 +67,7 @@ public class PathFinding : MonoBehaviour
         {
             for (int j = 0; j < yCount; j++)
             {
-                allPathNodes.Add(new PathNode(i, j, RefHolder.instance.worldGen.getGridGroundObject(i,j).GetComponent<GroundScript>().isEmpty));
+                allPathNodes.Add(new PathNode(i, j, RefHolder.instance.worldGen.GetGridGroundObject(i,j).GetComponent<GroundScript>().isEmpty));
             }
         }
         PathNode startNode = GetNode(startX, startY);
@@ -283,7 +283,7 @@ public class PathFinding : MonoBehaviour
         {
             for (int j = yRangeMinus; j <= yRangePlus; j++)
             {
-                if (RefHolder.instance.worldGen.getGridGroundObject(i, j).GetComponent<GroundScript>().isEmpty == true)
+                if (RefHolder.instance.worldGen.GetGridGroundObject(i, j).GetComponent<GroundScript>().isEmpty == true)
                 {
                     allPathNodes.Add(new PathNode(i, j, true));
                 }

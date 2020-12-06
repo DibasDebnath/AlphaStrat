@@ -104,9 +104,10 @@ public class HeroSOBase : ScriptableObject
         {
             for (int i = 0; i < path.Count; i++)
             {
-                path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m1;
+                path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m2;
             }
-            MainClass.startMoveToCorotine(path);
+            MainClass.StartMoveToCorotine(path,xIndex,yIndex);
+            
         }
         else
         {
@@ -114,7 +115,7 @@ public class HeroSOBase : ScriptableObject
         }
     }
 
-    public IEnumerator MoveToTileEnumerator(List<GameObject> path)
+    public IEnumerator MoveToTileEnumerator(List<GameObject> path,int xIndex,int yIndex)
     {
         float step = speed * Time.deltaTime;
         Vector3 target;
@@ -130,8 +131,12 @@ public class HeroSOBase : ScriptableObject
             }
             
         }
+        for (int i = 0; i < path.Count; i++)
+        {
+            path[i].transform.GetComponent<Renderer>().material = RefHolder.instance.worldGen.m1;
+        }
+        MainClass.SetMapIndex(xIndex, yIndex);
 
-        
 
     }
     #endregion

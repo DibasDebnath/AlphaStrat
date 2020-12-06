@@ -37,15 +37,15 @@ public class HeroMainBase : MonoBehaviour
 
     
 
-    public void setMapIndex(int xGridIndex,int yGridIndex)
+    public void SetMapIndex(int xGridIndex,int yGridIndex)
     {
         this.xGridIndex = xGridIndex;
         this.yGridIndex = yGridIndex;
     }
 
-    public void startMoveToCorotine(List<GameObject> path)
+    public void StartMoveToCorotine(List<GameObject> path,int xIndex,int yIndex)
     {
-        StartCoroutine(heroSO.MoveToTileEnumerator(path));
+        StartCoroutine(heroSO.MoveToTileEnumerator(path, xIndex,yIndex));
     }
     
 

@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    //Test Variables
-    public Material m1;
-    public Material m2;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -38,24 +36,31 @@ public class PlayerController : MonoBehaviour
 
     public void TapRayCast()
     {
-        RaycastHit hit;
+        
         Ray ray = cam.ScreenPointToRay(RefHolder.instance.inputController.ScreenTouchPosition);
 
-        if (Physics.Raycast(ray, out hit))
+        RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction);
+        foreach (RaycastHit hit in hits)
         {
-            if (hit.transform.CompareTag("Ground"))
-            {
-                SelectGround(hit);   
-            }
-            else if(hit.transform.CompareTag("Hero"))
-            {
+            //Debug.Log("Ray was casted");
+            if (hit.transform.CompareTag("Hero"))
+            { 
                 SelectHero(hit);
+                break;
             }
+            else if (hit.transform.CompareTag("Ground"))
+            {
+                SelectGround(hit);
+                break;
+            }
+                
 
-           
+
+
 
             
         }
+        
     }
 
 
@@ -78,7 +83,7 @@ public class PlayerController : MonoBehaviour
             isHeroSelected = false;
             
             GroundScript gs = hit.transform.GetComponent<GroundScript>();
-            Debug.Log("Ground Hit index " + gs.xGridIndex + " " + gs.yGridIndex);
+            //Debug.Log("Ground Hit index " + gs.xGridIndex + " " + gs.yGridIndex);
             int x = gs.xGridIndex;
             int y = gs.yGridIndex;
             if (selectedHero.heroSO.IsGroundHighlighted(x , y))
@@ -86,6 +91,14 @@ public class PlayerController : MonoBehaviour
                 selectedHero.heroSO.MoveToSelectedTile(x, y);
             }
             selectedHero.OnDeselect();
+        }
+        else
+        {
+            if(selectedHero != null)
+            {
+                selectedHero.OnDeselect();
+            }
+            
         }
     }
 

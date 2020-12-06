@@ -38,6 +38,15 @@ public class WorldGen : MonoBehaviour
     #endregion
 
     #region GridComponent
+
+    [Header("Test Variables")]
+
+    public Material m1;
+    public Material m2;
+    public Material m3;
+
+
+
     [Header("For Set Up")]
     public Transform gridHolderForSet;
 
@@ -65,13 +74,13 @@ public class WorldGen : MonoBehaviour
 
     public static GameObject[,] gridGroundReference;
     public List<GameObject> gridGroundReferenceList = new List<GameObject>();
-    private void setGridGroundList()
+    private void SetGridGroundList()
     {
         for (int i = 0; i < xTileCount; i++)
         {
             for (int j = 0; j < zTileCount; j++)
             {
-                gridGroundReferenceList.Add(getGridGroundObject(i, j));
+                gridGroundReferenceList.Add(GetGridGroundObject(i, j));
             }
         }
     }
@@ -87,10 +96,7 @@ public class WorldGen : MonoBehaviour
 
 
 
-    [Header("Test Variables")]
-
-    public Material m1;
-    public Material m2;
+    
 
 
 
@@ -164,7 +170,7 @@ public class WorldGen : MonoBehaviour
         return groundTileList[UnityEngine.Random.Range(0, groundTileList.Count)];
     }
 
-    public GameObject getGridGroundObject(int i, int j)
+    public GameObject GetGridGroundObject(int i, int j)
     {
         return gridGroundReference[i, j];
     }
@@ -208,7 +214,7 @@ public class WorldGen : MonoBehaviour
         GameObject tmpXAxis = XAxis;
 
         Vector3 tmpPos = XAxis.transform.position;
-        GameObject tmpGround = XAxis;
+        GameObject tmpGround;
 
         for (int j = 0; j < zTileCount; j++)
         {
@@ -249,7 +255,7 @@ public class WorldGen : MonoBehaviour
     {
         gridGroundReference = new GameObject[xTileCount, zTileCount];
 
-        GameObject XAxis = gridHolderForSet.transform.GetChild(0).gameObject;
+       
 
 
         for (int i = 0; i < xTileCount; i++)
