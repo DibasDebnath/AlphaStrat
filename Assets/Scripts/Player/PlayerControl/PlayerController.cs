@@ -36,30 +36,31 @@ public class PlayerController : MonoBehaviour
 
     public void TapRayCast()
     {
-        
+        RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(RefHolder.instance.inputController.ScreenTouchPosition);
 
-        RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction);
-        foreach (RaycastHit hit in hits)
+        for(int i = 0;i < 5; i++)
         {
-            //Debug.Log("Ray was casted");
-            if (hit.transform.CompareTag("Hero"))
-            { 
-                SelectHero(hit);
-                break;
-            }
-            else if (hit.transform.CompareTag("Ground"))
+            if (Physics.Raycast(ray, out hit))
             {
-                SelectGround(hit);
-                break;
+                if (hit.transform.CompareTag("Hero"))
+                {
+                    SelectHero(hit);
+                    Debug.Log("Hero");
+                    break;
+                }
+                else if (hit.transform.CompareTag("Ground"))
+                {
+                    SelectGround(hit);
+                    Debug.Log("Ground");
+                    break;
+                }
             }
-                
-
-
-
-
-            
         }
+        
+        
+            
+
         
     }
 
@@ -86,9 +87,9 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("Ground Hit index " + gs.xGridIndex + " " + gs.yGridIndex);
             int x = gs.xGridIndex;
             int y = gs.yGridIndex;
-            if (selectedHero.heroSO.IsGroundHighlighted(x , y))
+            if (selectedHero.IsGroundHighlighted(x , y))
             {
-                selectedHero.heroSO.MoveToSelectedTile(x, y);
+                selectedHero.MoveToSelectedTile(x, y);
             }
             selectedHero.OnDeselect();
         }

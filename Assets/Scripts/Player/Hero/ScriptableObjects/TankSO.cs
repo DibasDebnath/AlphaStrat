@@ -9,7 +9,7 @@ public class TankSO : HeroSOBase
 
 
 
-    private TankSO()
+    public TankSO()
     {
         heroType = "Tank";
         health = 80f;
