@@ -33,6 +33,9 @@ public class WorldGen : MonoBehaviour
 
         //Old Gen Use
         //SetGridGroundReferenceFromList();
+
+        //List<HeroMainBase> heroMainBases = GetAllHeroScripts();
+        //testHeroClass.Test();
     }
 
     #endregion
@@ -45,6 +48,7 @@ public class WorldGen : MonoBehaviour
     public Material m2;
     public Material m3;
 
+    public HeroMainBase testHeroClass;
 
 
     [Header("For Set Up")]
@@ -54,7 +58,8 @@ public class WorldGen : MonoBehaviour
     public Transform gridHolder;
     public List<GameObject> groundTileList = new List<GameObject>();
 
-
+    [Header("Heros")]
+    public GameObject HeroHolder;
 
     [Header("Map Perameters")]
     public int xTileCount;
@@ -269,5 +274,29 @@ public class WorldGen : MonoBehaviour
     }
     #endregion
 
+
+
+
+    #region Hero Setup
+
+
+
+    public List<HeroMainBase> GetAllHeroScripts()
+    {
+        List<HeroMainBase> heroScripts = new List<HeroMainBase>();
+        for (int i = 0; i < HeroHolder.transform.childCount; i++)
+        {
+            heroScripts.Add(HeroHolder.transform.GetChild(i).GetComponent<HeroMainBase>());
+            //heroScripts[i].Test();
+        }
+
+        
+        return heroScripts;
+    }
+
+
+
+    
+    #endregion
 
 }

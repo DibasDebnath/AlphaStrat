@@ -183,15 +183,13 @@ public class PathFinding : MonoBehaviour
             // Left Down
             if (currentNode.y - 1 >= 0)
             {
-                //Left and Down tile befor diagonal tile add
+                //Left and Down tile before diagonal tile add
                 if(GetNode(currentNode.x - 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y - 1).isWalkable)
                 {
                     neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y - 1));
                 }
             }
-
             // Left Up
-
             if (currentNode.y + 1 < yCount)
             {
                 if (GetNode(currentNode.x - 1, currentNode.y).isWalkable || GetNode(currentNode.x, currentNode.y + 1).isWalkable)
@@ -285,7 +283,11 @@ public class PathFinding : MonoBehaviour
             {
                 if (RefHolder.instance.worldGen.GetGridGroundObject(i, j).GetComponent<GroundScript>().isEmpty == true)
                 {
-                    allPathNodes.Add(new PathNode(i, j, true));
+                    if (IsPathReachable(startX, startY,i,j, xCount,yCount,range))
+                    {
+                        allPathNodes.Add(new PathNode(i, j, true));
+                    }
+                    
                 }
                 
             }
@@ -295,6 +297,22 @@ public class PathFinding : MonoBehaviour
         return allPathNodes;
     }
 
-
+    public bool IsPathReachable(int startX, int startY, int endX, int endY, int xCount, int yCount, int range)
+    {
+        List<PathNode> paths = FindPath(startX, startY, endX, endY, xCount, yCount);
+        //if(paths == null)
+        //{
+        //    return false;
+        //}
+        //else if (paths.Count > range)
+        //{
+        //    return false;
+        //}
+        //else
+        //{
+        //    return true;
+        //}
+        return false;
+    }
 
 }

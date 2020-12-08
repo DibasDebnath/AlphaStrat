@@ -188,4 +188,11 @@ public class HeroMainBase : MonoBehaviour
     }
 
     #endregion
+
+
+
+    public virtual void Test()
+    {
+        Debug.Log("From Base");
+    }
 }
